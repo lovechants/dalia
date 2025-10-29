@@ -18,6 +18,9 @@ EXAMPLE_BINS := $(patsubst $(EXAMPLE_DIR)/%.cpp,$(EXAMPLE_BUILD)/%,$(EXAMPLE_SOU
 
 all: test
 
+-include $(TEST_DEPS)
+-include $(EXAMPLE_DEPS)
+
 $(TEST_BUILD)/%: $(TEST_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(TEST_FLAGS) $< -o $@
@@ -51,6 +54,12 @@ test: $(TEST_BINS)
 
 test-linalg: $(filter $(TEST_BUILD)/test_linalg%,$(TEST_BINS))
 	$(call run_tests,$(filter $(TEST_BUILD)/test_linalg%,$(TEST_BINS)))
+
+test-special: $(filter $(TEST_BUILD)/test_special%,$(TEST_BINS))
+	$(call run_tests,$(filter $(TEST_BUILD)/test_special%,$(TEST_BINS)))
+
+test-stats: $(filter $(TEST_BUILD)/test_stats%,$(TEST_BINS))
+	$(call run_tests,$(filter $(TEST_BUILD)/test_stats%,$(TEST_BINS)))
 
 debug: CXXFLAGS += $(DEBUG_FLAGS)
 debug: TEST_FLAGS += $(DEBUG_FLAGS)
